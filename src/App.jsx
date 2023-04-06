@@ -5,6 +5,7 @@ import axios from "axios";
 import "./App.css";
 import { Link, Routes, Route } from "react-router-dom";
 import CharacterDetails from "./components/Character-page";
+import { BounceLoader } from "react-spinners";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -85,12 +86,8 @@ function App() {
             characters ? (
               renderCharacterList()
             ) : (
-              <div className="bg-indigo-500 ">
-                <svg
-                  className="animate-spin h-5 w-5 mr-3 ..."
-                  viewBox="0 0 24 24"
-                ></svg>
-                Processing...
+              <div className="flex justify-center mt-10">
+                <BounceLoader color="blue" />
               </div>
             )
           }
