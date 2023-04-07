@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { BounceLoader } from "react-spinners";
 
-function CharacterDetails() {
+function CharacterDetails({ fetchData }) {
   const baseURL = "https://ih-crud-api.herokuapp.com";
   const [character, setCharacter] = useState(null);
   const { characterId } = useParams();
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   async function fetchCharacterData() {
     try {
@@ -20,12 +21,27 @@ function CharacterDetails() {
     }
   }
   const displayNotFound = () => <p>{message}</p>;
+  const deleteCharacter = async () => {
+    console.log("Delete the character" + character.id);
+    const res = await axios.delete(
+      import.meta.env.VITE_API_URL + "/characters/" + characterId
+    );
+    console.log(res);
+    fetchData();
+    navigate("/");
+  };
   const renderDetails = () => {
     return (
       <>
         <p>This is a Character Page for {character.name}</p>
         <p>Occupation: {character.occupation}</p>
         <p>Weapon: {character.weapon}</p>
+        <button
+          onClick={deleteCharacter}
+          className=" bg-red-600 p-2 rounded-lg mt-2"
+        >
+          Delete this one
+        </button>
       </>
     );
   };
